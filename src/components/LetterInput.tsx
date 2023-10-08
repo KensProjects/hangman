@@ -37,7 +37,7 @@ export default function LetterInput() {
                 <div className="w-1/4 h-fit flex flex-col justify-center items-center gap-4 mt-4">
                     {gameIsntOver && <div className='bg-green-400 w-32 h-12 rounded-sm flex justify-center items-center'>Rounds Left: {roundsLeft}</div>}
                     <form onSubmit={handleLetterInputSubmit} className='flex flex-col justify-center items-center gap-4 mb-4'>
-                        <input type='text' name='activeKey' value={activeKey.toLowerCase()} onChange={e => setActiveKey(e.target.value)} maxLength={1} required className='border-2 border-black p-1 rounded-md' />
+                        <input type='text' name='activeKey' value={activeKey.toUpperCase()} onChange={e => setActiveKey(e.target.value)} maxLength={1} required className='border-2 border-black p-1 rounded-md' />
                         <button type="submit" className='bg-blue-300 hover:bg-blue-200 duration-75 ease-in-out w-20 h-8 rounded-md '>Submit</button>
                     </form>
                 </div>

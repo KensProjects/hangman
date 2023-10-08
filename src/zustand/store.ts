@@ -40,38 +40,38 @@ export const useWordStore = create<TWordStore>()((set, get) => ({
     roundsLeft: initialRoundCount,
     usedLetters: [],
     setActiveKey: (keyPressed: string) => {
-        set({ activeKey: keyPressed })
+        set({ activeKey: keyPressed.toLowerCase() })
     },
     setInitialWord: async () => {
         try {
-                 const res = await axios.get(apiEndpoint)
-        const data = await res.data[0]
-        set({ initialWord: data })
-        set({
-            wordInGame: data.split("").map((letter: any) => {
-                return { letter: letter, isPicked: false }
+            const res = await axios.get(apiEndpoint)
+            const data = await res.data[0]
+            set({ initialWord: data })
+            set({
+                wordInGame: data.split("").map((letter: any) => {
+                    return { letter: letter, isPicked: false }
+                })
             })
-        })
-        return data
+            return data
         } catch (error) {
             console.error(error)
         }
-   
+
     },
     removeLetterFromWord: (letterString: string) => {
         return new Promise((resolve) => {
             const usedLetters = get().usedLetters
-            const letterAlreadyUsed = usedLetters.includes(letterString)
+            const letterAlreadyUsed = usedLetters.includes(letterString.toLowerCase())
             if (letterAlreadyUsed) {
-               return set({activeKey:""})
+                return set({ activeKey: "" })
             }
             const prevWordInGame = get().wordInGame
             const letterExists = prevWordInGame.some((letterObj: TWordinGame) => {
-                return letterObj.letter === letterString
+                return letterObj.letter === letterString.toLowerCase()
             })
             if (letterExists) {
                 const updatedWordInGame = prevWordInGame.map((letterObj: TWordinGame) => {
-                    if (letterObj.letter === letterString) {
+                    if (letterObj.letter === letterString.toLowerCase()) {
                         return { ...letterObj, isPicked: true }
                     } else {
                         return letterObj
@@ -82,7 +82,7 @@ export const useWordStore = create<TWordStore>()((set, get) => ({
                 const isGameWon = wordInGameAfterUpdate.every((letterObj: TWordinGame) => {
                     return letterObj.isPicked
                 })
-                set({ usedLetters: [...usedLetters, letterString] })
+                set({ usedLetters: [...usedLetters, letterString.toLowerCase()] })
                 if (isGameWon) {
                     setTimeout(() => {
                         set({ gameWon: true, usedLetters: [] })
@@ -90,7 +90,7 @@ export const useWordStore = create<TWordStore>()((set, get) => ({
                 }
             }
             else {
-                set({ usedLetters: [...usedLetters, letterString] })
+                set({ usedLetters: [...usedLetters, letterString.toLowerCase()] })
 
                 set((state) => ({
                     roundsLeft: state.roundsLeft - 1
