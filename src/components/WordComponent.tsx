@@ -14,7 +14,7 @@ export default function WordComponent() {
     })
 
     return (
-        <div className="flex justify-around items-center bg-gray-200 h-20 w-full">
+        <div className="flex justify-around items-center bg-gray-200 h-20 w-full text-white">
             {gameInfo}
         </div>
     )
